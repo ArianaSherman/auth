@@ -12,6 +12,7 @@ class SessionsController < ApplicationController
           
     # 3. if they know their password -> login is successful
         if @user["password"]==BCrypt::Password.new(@user["password"])
+          session["user_id"]=@user["id"]
           flash["notice"] = "Welcome."
           redirect_to "/companies"
         else
@@ -26,7 +27,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    # logout the user
+    session["user_id"]=nil
     flash["notice"] = "Goodbye."
     redirect_to "/login"
   end
